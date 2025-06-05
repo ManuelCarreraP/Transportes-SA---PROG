@@ -2,18 +2,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConexionPostgreSQL {
-    public static void main(String[] args) {
-        // URL de conexión con el formato correcto para JDBC
-        String url = "jdbc:postgresql://db.sufyrkjlqdgsaiamhimv.supabase.co:5432/postgres"; // Cambia "postgres" por el nombre de tu base de datos
-        String usuario = "postgres";  // Tu usuario de PostgreSQL
-        String contraseña = "+McQRq2V%2b_VVJ"; // Tu contraseña
+public class ConexionPostgreSQL{
 
-        try (Connection conn = DriverManager.getConnection(url, usuario, contraseña)) {
-            System.out.println("Conexión exitosa a PostgreSQL");
+    public static void main(String[] args) {
+        String url = "jdbc:postgresql://aws-0-us-east-2.pooler.supabase.com:6543/postgres";
+        String usuario = "postgres.lhadhhdyxuiytabqmnnt";
+        String contrasena = "ZV2SsqHEBCAhdk8Z";
+
+        try (Connection conexion = DriverManager.getConnection(url, usuario, contrasena)) {
+            System.out.println("Conexión establecida correctamente.");
         } catch (SQLException e) {
-            System.out.println("Error al conectar");
-            e.printStackTrace();
+            System.out.println("Error al conectar: " + e.getMessage());
         }
     }
 }
