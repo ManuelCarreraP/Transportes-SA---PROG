@@ -1,6 +1,5 @@
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
     private int nPlazas;
@@ -51,6 +50,23 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
 
     @Override
     public void eliminarVehiculo(Connection connection, String matricula) {
-
+        try (PreparedStatement statement = connection.prepareStatement("delete from camion where matricula=?")) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error en eliminar vehiculo " + e);
+        }
     }
-}
+
+    @Override
+    public ArrayList<Furgoneta> obtenerTodosVehiculosCategoria(Connection connection) {
+        ArrayList<Furgoneta> furgonetas = new ArrayList<>();
+        try (Statement stm = connection.createStatement(); ResultSet set = stm.executeQuery("select * from camion;")) {
+            while (set.next()) {
+                furgonetas.add(new Furgoneta(set.getString("matricula"),set.getDouble("largo"),set.getDouble("peso"),set.getString("modelo"),set.getInt("nPlazas")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error en obtencion " + e);
+        }
+        return furgonetas;
+    }
+    }

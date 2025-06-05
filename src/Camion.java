@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Camion extends Vehiculo implements Usable<Camion> {
     private double capacidadCarga; // en toneladas
@@ -66,8 +67,25 @@ public class Camion extends Vehiculo implements Usable<Camion> {
 
     @Override
     public void eliminarVehiculo(Connection connection, String matricula) {
-
+        try (PreparedStatement statement = connection.prepareStatement("delete from camion where matricula=?")) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error en eliminar vehiculo " + e);
+        }
     }
-}
+
+    @Override
+    public ArrayList<Camion> obtenerTodosVehiculosCategoria(Connection connection) {
+        ArrayList<Camion> camiones = new ArrayList<>();
+        try (Statement stm = connection.createStatement();ResultSet set = stm.executeQuery("select * from camion;")) {
+            while (set.next()) {
+                camiones.add(new Camion(set.getString("matricula"),set.getDouble("largo"),set.getDouble("peso"),set.getString("modelo"),set.getDouble("capacidadCarga")));
+            }
+            } catch (SQLException e) {
+                System.err.println("Error en obtencion " + e);
+            }
+            return camiones;
+        }
+    }
 
 

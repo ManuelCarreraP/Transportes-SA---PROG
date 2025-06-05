@@ -1,7 +1,5 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 
 public class Trailer extends Vehiculo implements Usable<Trailer> {
     private int numRemolques;
@@ -60,6 +58,23 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
 
     @Override
     public void eliminarVehiculo(Connection connection, String matricula) {
+        try (PreparedStatement statement = connection.prepareStatement("delete from trailers where matricula=?")) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error en eliminar vehiculo " + e);
+        }
+    }
 
+    @Override
+    public ArrayList<Trailer> obtenerTodosVehiculosCategoria(Connection connection) {
+        ArrayList<Trailer> trailers = new ArrayList<>();
+        try (Statement stm = connection.createStatement(); ResultSet set = stm.executeQuery("select * from trailers;")) {
+            while (set.next()) {
+                trailers.add(new Trailer(set.getString("matricula"),set.getDouble("largo"),set.getDouble("peso"),set.getString("modelo"),set.getInt("nPlazas")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error en obtencion " + e);
+        }
+        return trailers;
     }
 }
