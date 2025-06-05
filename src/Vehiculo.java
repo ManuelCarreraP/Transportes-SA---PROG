@@ -1,8 +1,8 @@
 public abstract class Vehiculo {
-    protected String matricula;
-    protected double largo;
-    protected double peso;
-    protected String modelo;
+    public String matricula;
+    public double largo;
+    public double peso;
+    public String modelo;
 
     public Vehiculo(String matricula, double largo, double peso, String modelo) {
         this.matricula = matricula;
