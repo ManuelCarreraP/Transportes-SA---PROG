@@ -25,7 +25,7 @@ public class DataBaseManagment {
             System.out.println("Ya existe ese camion");
         }
     }
-    private boolean existeVehiculo(String tablaVehiculo,String matricula) {
+    boolean existeVehiculo(String tablaVehiculo,String matricula) {
         try (PreparedStatement statement = connection.prepareStatement("select * from ? where matricula=?")) {
             statement.setString(1,tablaVehiculo);
             statement.setString(2,matricula);
@@ -35,19 +35,5 @@ public class DataBaseManagment {
         } catch (SQLException e) {
             throw new RuntimeException("No es posible de utilizar si no existe una conexion con la base de datos");
         }
-    }
-    public Camion getCamion(String matricula) {
-        Camion camion = null;
-        try (PreparedStatement statement = connection.prepareStatement("select * from camion where matricula=?")) {
-            statement.setString(1,matricula);
-            try (ResultSet set = statement.executeQuery()) {
-                while (set.next()) {
-                  camion = new Camion(set.getString("matricula"),set.getDouble("largo"),set.getDouble("peso"),set.getString("modelo"),set.getDouble("capacidadCarga"));
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error in obtaining data");
-        }
-        return camion;
     }
 }

@@ -10,7 +10,7 @@ public abstract class Vehiculo {
         this.peso = peso;
         this.modelo = modelo;
     }
-
+    public Vehiculo(){}
     public String getMatricula() { return matricula; }
     public void setMatricula(String matricula) { this.matricula = matricula; }
 
