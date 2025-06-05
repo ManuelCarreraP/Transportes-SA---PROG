@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Trailer extends Vehiculo implements Usable<Trailer> {
     private int numRemolques;
@@ -48,12 +49,61 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
 
     @Override
     public int insertarVehiculo(Connection connection) {
-        return 0;
+        try (PreparedStatement statement = connection.prepareStatement("insert into trailers values(?, ?, ?, ?, ?)")) {
+            statement.setString(1,this.matricula);
+            statement.setDouble(2,this.largo);
+            statement.setDouble(3,this.peso);
+            statement.setString(4,this.modelo);
+            statement.setInt(5,this.numRemolques);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error en preparar el statement " + e);
+            return -2;
+        }
     }
 
     @Override
     public int actualizarVehiculo(Connection connection, String matricula) {
-        return 0;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digame entre que campo desea actualizar: ");
+        System.out.println("1.Largo\n2.Ancho\n3.Modelo\n4.Numero de remolques");
+        var campoNumero = sc.nextInt();
+        String campo = switch (campoNumero) {
+            case 1 -> "largo";
+            case 2 -> "ancho";
+            case 3 -> "modelo";
+            case 4 -> "numRemolques";
+            default -> "";
+        };
+        if (campo.isEmpty()){
+            return -2;
+        }
+        String consulta = "update furgonetas set " + campo + " = ? where matricula = ?"; // La paremtrizacion de los Prepared no sirven para los campos, así que lo hice así aunque no me gusta mucho
+        System.out.println(consulta);
+        try (PreparedStatement stm = connection.prepareStatement(consulta)) {
+            switch (campo) {
+                case "modelo" -> {
+                    System.out.println("Digame el nuevo valor para el modelo:");
+                    var nuevoModelo = sc.nextLine();
+                    stm.setString(1,nuevoModelo);
+                }
+                case "numRemolques" -> {
+                    System.out.println("Digame el nuevo valor para el numero de plazas:");
+                    var nuevoModelo = sc.nextInt();
+                    stm.setInt(1,nuevoModelo);
+                }
+                default -> {
+                    System.out.println("Digame el nuevo valor para " + campo + ":");
+                    var nuevoModelo = sc.nextDouble();
+                    stm.setDouble(1,nuevoModelo);
+                }
+            }
+            stm.setString(2,matricula);
+            return stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error en el proceso de actualizacion " + e);
+            return -2;
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Camion extends Vehiculo implements Usable<Camion> {
     private double capacidadCarga; // en toneladas
@@ -47,7 +48,7 @@ public class Camion extends Vehiculo implements Usable<Camion> {
 
     @Override
     public int insertarVehiculo(Connection connection) {
-        try (PreparedStatement statement = connection.prepareStatement("insert into Camion values(?, ?, ?, ?, ?)")) {
+        try (PreparedStatement statement = connection.prepareStatement("insert into camion values(?, ?, ?, ?, ?)")) {
             statement.setString(1,this.matricula);
             statement.setDouble(2,this.largo);
             statement.setDouble(3,this.peso);
@@ -62,7 +63,38 @@ public class Camion extends Vehiculo implements Usable<Camion> {
 
     @Override
     public int actualizarVehiculo(Connection connection, String matricula) {
-        return 0;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Digame entre que campo desea actualizar: ");
+        System.out.println("1.Largo\n2.Peso\n3.Modelo\n4.Numero de plazas\n5.Salir");
+        var campoNumero = sc.nextInt();
+        String campo = switch (campoNumero) {
+            case 1 -> "largo";
+            case 2 -> "peso";
+            case 3 -> "modelo";
+            case 4 -> "capacidadCarga";
+            default -> "";
+        };
+        if (campo.isEmpty()){
+            return -2;
+        }
+        String consulta = "update camion set " + campo + " = ? where matricula = ?"; // La paremtrizacion de los Prepared no sirven para los campos, así que lo hice así aunque no me gusta mucho
+        System.out.println(consulta);
+        try (PreparedStatement stm = connection.prepareStatement(consulta)) {
+            if (campo.equals("modelo")) {
+                System.out.println("Digame el nuevo valor para el modelo:");
+                var nuevoModelo = sc.nextLine();
+                stm.setString(1, nuevoModelo);
+            } else {
+                System.out.println("Digame el nuevo valor para " + campo + ":");
+                var nuevoModelo = sc.nextDouble();
+                stm.setDouble(1, nuevoModelo);
+            }
+            stm.setString(2,matricula);
+            return stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error en el proceso de actualizacion " + e);
+            return -2;
+        }
     }
 
     @Override

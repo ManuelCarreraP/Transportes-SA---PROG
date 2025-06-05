@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ConexionPostgreSQL{
 
@@ -11,6 +12,7 @@ public class ConexionPostgreSQL{
 
         try (Connection conexion = DriverManager.getConnection(url, usuario, contrasena)) {
             System.out.println("Conexión establecida correctamente.");
+            new Furgoneta().actualizarVehiculo(conexion,"FGEL");
         } catch (SQLException e) {
             System.out.println("Error al conectar: " + e.getMessage());
         }
