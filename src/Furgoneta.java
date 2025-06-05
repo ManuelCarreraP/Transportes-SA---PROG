@@ -31,7 +31,20 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
 
     @Override
     public Furgoneta getVehiculo(Connection connection, String matricula) {
-        return null;
+        Furgoneta furgoneta = null;
+        try (PreparedStatement statement = connection.prepareStatement("select * from Camion where matricula=?")) {
+            statement.setString(1,matricula);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    furgoneta = new Furgoneta(resultSet.getString("matricula"),resultSet.getDouble("largo"),resultSet.getDouble("peso"),resultSet.getString("modelo"),resultSet.getInt("nPlazas"));
+                }
+            } catch (SQLException e) {
+                System.out.println("Fallo al obtener informacion " + e);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error ejecutando consulta"+e);
+        }
+        return furgoneta;
     }
 
     @Override
