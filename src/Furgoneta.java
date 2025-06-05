@@ -49,9 +49,15 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
 
     @Override
     public int insertarVehiculo(Connection connection) {
-        try (Statement stm = connection.createStatement()) {
-            return stm.executeUpdate("insert into furgonetas values ('AMPE',23.12,12.23,'Exper',3)");
+        try (PreparedStatement statement = connection.prepareStatement("insert into camion values(?, ?, ?, ?, ?)")) {
+            statement.setString(1,this.matricula);
+            statement.setDouble(2,this.largo);
+            statement.setDouble(3,this.peso);
+            statement.setString(4,this.modelo);
+            statement.setInt(5,this.nPlazas);
+            return statement.executeUpdate();
         } catch (SQLException e) {
+            System.out.println("Error en preparar el statement " + e);
             return -2;
         }
     }
