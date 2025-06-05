@@ -29,23 +29,24 @@ public class Camion extends Vehiculo implements Usable<Camion> {
     @Override
     public Camion getVehiculo(Connection connection, String matricula) {
         Camion camion = null;
-        try (PreparedStatement statement = connection.prepareStatement("select * from camion where matricula=?")) {
+        try (PreparedStatement statement = connection.prepareStatement("select * from Camion where matricula=?")) {
             statement.setString(1,matricula);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     camion = new Camion(resultSet.getString("matricula"),resultSet.getDouble("largo"),resultSet.getDouble("peso"),resultSet.getString("modelo"),resultSet.getDouble("capacidadCarga"));
                 }
+            } catch (SQLException e) {
+                System.out.println("Fallo al obtener informacion " + e);
             }
-
         } catch (SQLException e) {
-            System.out.println("Error ejecutando consulta");
+            System.out.println("Error ejecutando consulta"+e);
         }
         return camion;
     }
 
     @Override
     public int insertarVehiculo(Connection connection) {
-        try (PreparedStatement statement = connection.prepareStatement("insert into camion values(? ? ? ? ?);")) {
+        try (PreparedStatement statement = connection.prepareStatement("insert into Camion values(?, ?, ?, ?, ?)")) {
             statement.setString(1,this.matricula);
             statement.setDouble(2,this.largo);
             statement.setDouble(3,this.peso);
@@ -53,9 +54,9 @@ public class Camion extends Vehiculo implements Usable<Camion> {
             statement.setDouble(5,this.capacidadCarga);
             return statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error en preparar el statement");
+            System.out.println("Error en preparar el statement " + e);
+            return -2;
         }
-        return -2;
     }
 
     @Override

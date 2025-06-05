@@ -1,4 +1,6 @@
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
     private int nPlazas;
@@ -33,14 +35,19 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
     }
 
     @Override
-    public int insertarVehiculo() {
-        return 0;
+    public int insertarVehiculo(Connection connection) {
+        try (Statement stm = connection.createStatement()) {
+            return stm.executeUpdate("insert into furgonetas values ('AMPE',23.12,12.23,'Exper',3)");
+        } catch (SQLException e) {
+            return -2;
+        }
     }
 
     @Override
-    public int actualizarVehiculo(String matricula) {
+    public int actualizarVehiculo(Connection connection, String matricula) {
         return 0;
     }
+
 
     @Override
     public void eliminarVehiculo(Connection connection, String matricula) {

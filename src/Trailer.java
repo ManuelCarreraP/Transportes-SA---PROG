@@ -49,17 +49,17 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
     }
 
     @Override
-    public int insertarVehiculo() {
-
+    public int insertarVehiculo(Connection connection) {
+        return 0;
     }
 
     @Override
-    public int actualizarVehiculo(String matricula) {
+    public int actualizarVehiculo(Connection connection, String matricula) {
         return 0;
     }
 
     @Override
     public void eliminarVehiculo(Connection connection, String matricula) {
-        try
+
     }
 }
