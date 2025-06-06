@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
@@ -32,7 +33,7 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
     @Override
     public Furgoneta getVehiculo(Connection connection, String matricula) {
         Furgoneta furgoneta = null;
-        try (PreparedStatement statement = connection.prepareStatement("select * from Camion where matricula=?")) {
+        try (PreparedStatement statement = connection.prepareStatement("select * from camion where matricula=?")) {
             statement.setString(1,matricula);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -65,9 +66,14 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
     @Override
     public int actualizarVehiculo(Connection connection, String matricula) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Digame entre que campo desea actualizar: ");
         System.out.println("1.Largo\n2.Ancho\n3.Peso\n4.Modelo\n5.Numero de plazas");
-        var campoNumero = sc.nextInt();
+        int campoNumero = 0;
+        try {
+            System.out.print("Digame la opcion:");
+            campoNumero = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.err.println("Error introduciendo el numero ");
+        }
         String campo = switch (campoNumero) {
             case 1 -> "largo";
             case 2 -> "ancho";
@@ -80,12 +86,11 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
             return -2;
         }
         String consulta = "update furgonetas set " + campo + " = ? where matricula = ?"; // La paremtrizacion de los Prepared no sirven para los campos, así que lo hice así aunque no me gusta mucho
-        System.out.println(consulta);
         try (PreparedStatement stm = connection.prepareStatement(consulta)) {
             switch (campo) {
                 case "modelo" -> {
                     System.out.println("Digame el nuevo valor para el modelo:");
-                    var nuevoModelo = sc.nextLine();
+                    var nuevoModelo = sc.nextLine().trim();
                     stm.setString(1,nuevoModelo);
                 }
                 case "nPlazas" -> {

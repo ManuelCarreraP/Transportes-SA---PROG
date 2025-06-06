@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Camion extends Vehiculo implements Usable<Camion> {
@@ -66,7 +67,13 @@ public class Camion extends Vehiculo implements Usable<Camion> {
         Scanner sc = new Scanner(System.in);
         System.out.println("Digame entre que campo desea actualizar: ");
         System.out.println("1.Largo\n2.Peso\n3.Modelo\n4.Numero de plazas\n5.Salir");
-        var campoNumero = sc.nextInt();
+        int campoNumero = 0;
+        try {
+            System.out.print("Digame la opcion:");
+            campoNumero = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.err.println("Error introduciendo el numero ");
+        }
         String campo = switch (campoNumero) {
             case 1 -> "largo";
             case 2 -> "peso";
