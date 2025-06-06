@@ -12,7 +12,6 @@ public class ConexionPostgreSQL{
 
         try (Connection conexion = DriverManager.getConnection(url, usuario, contrasena)) {
             System.out.println("Conexión establecida correctamente.");
-            new Furgoneta().exportarVehiculos(conexion);
         } catch (SQLException e) {
             System.out.println("Error al conectar: " + e.getMessage());
         }
