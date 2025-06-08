@@ -119,6 +119,17 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
     @Override
     public void eliminarVehiculo(Connection connection, String matricula) {
         try (PreparedStatement statement = connection.prepareStatement("delete from furgonetas where matricula=?")) {
+            statement.setString(1,matricula);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error en eliminar vehiculo " + e);
+        }
+    }
+
+    @Override
+    public void eliminarVehiculo(Connection connection) {
+        try (PreparedStatement statement = connection.prepareStatement("delete from furgonetas where matricula=?")) {
+            statement.setString(1,matricula);
             statement.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error en eliminar vehiculo " + e);
