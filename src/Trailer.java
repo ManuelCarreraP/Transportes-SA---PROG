@@ -67,7 +67,7 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
     public int actualizarVehiculo(Connection connection, String matricula) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Digame entre que campo desea actualizar: ");
-        System.out.println("1.Largo\n2.Ancho\n3.Modelo\n4.Numero de remolques");
+        System.out.println("1.Largo\n2.Peso\n3.Modelo\n4.Numero de remolques");
         int campoNumero = 0;
         try {
             System.out.print("Digame la opcion:");
@@ -77,7 +77,7 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
         }
         String campo = switch (campoNumero) {
             case 1 -> "largo";
-            case 2 -> "ancho";
+            case 2 -> "peso";
             case 3 -> "modelo";
             case 4 -> "numRemolques";
             default -> "";
@@ -86,6 +86,9 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
             return -2;
         }
         String consulta = "update furgonetas set " + campo + " = ? where matricula = ?"; // La paremtrizacion de los Prepared no sirven para los campos, así que lo hice así aunque no me gusta mucho
+        if (campo.equals("numRemolques")) {
+            consulta = "update furgonetas set \"" + campo + "\" = ? where matricula = ?";
+        }
         try (PreparedStatement stm = connection.prepareStatement(consulta)) {
             switch (campo) {
                 case "modelo" -> {
@@ -94,7 +97,7 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
                     stm.setString(1,nuevoModelo);
                 }
                 case "numRemolques" -> {
-                    System.out.println("Digame el nuevo valor para el numero de plazas:");
+                    System.out.println("Digame el nuevo valor para el numero de remolques:");
                     var nuevoModelo = sc.nextInt();
                     stm.setInt(1,nuevoModelo);
                 }

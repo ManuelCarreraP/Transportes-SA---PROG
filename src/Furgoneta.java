@@ -53,7 +53,7 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
 
     @Override
     public int insertarVehiculo(Connection connection) {
-        try (PreparedStatement statement = connection.prepareStatement("insert into camion values(?, ?, ?, ?, ?)")) {
+        try (PreparedStatement statement = connection.prepareStatement("insert into furgonetas values(?, ?, ?, ?, ?)")) {
             statement.setString(1,this.matricula);
             statement.setDouble(2,this.largo);
             statement.setDouble(3,this.peso);
@@ -69,7 +69,7 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
     @Override
     public int actualizarVehiculo(Connection connection, String matricula) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("1.Largo\n2.Ancho\n3.Peso\n4.Modelo\n5.Numero de plazas");
+        System.out.println("1.Largo\n2.Peso\n4.Modelo\n5.Numero de plazas");
         int campoNumero = 0;
         try {
             System.out.print("Digame la opcion:");
@@ -79,16 +79,18 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
         }
         String campo = switch (campoNumero) {
             case 1 -> "largo";
-            case 2 -> "ancho";
             case 3 -> "peso";
             case 4 -> "modelo";
             case 5 -> "nPlazas";
             default -> "";
         };
+        String consulta = "update furgonetas set " + campo + " = ? where matricula = ?"; // La paremtrizacion de los Prepared no sirven para los campos, así que lo hice así aunque no me gusta mucho
+        if (campo.equals("nPlazas")) {
+            consulta = "update furgonetas set \"" + campo + "\" = ? where matricula = ?";
+        }
         if (campo.isEmpty()){
             return -2;
         }
-        String consulta = "update furgonetas set " + campo + " = ? where matricula = ?"; // La paremtrizacion de los Prepared no sirven para los campos, así que lo hice así aunque no me gusta mucho
         try (PreparedStatement stm = connection.prepareStatement(consulta)) {
             switch (campo) {
                 case "modelo" -> {
