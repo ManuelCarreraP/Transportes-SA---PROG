@@ -125,9 +125,9 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
     }
 
     /**
-     *
-     * @param connection
-     * @param matricula
+     * Elimina el vehiculo, en este caso una Furgoneta
+     * @param connection la conexion a la base de datos
+     * @param matricula la matricula
      */
     @Override
     public void eliminarVehiculo(Connection connection, String matricula) {
