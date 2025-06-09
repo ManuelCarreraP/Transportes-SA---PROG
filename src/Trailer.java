@@ -157,7 +157,7 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
         ArrayList<Trailer> trailers = new ArrayList<>();
         try (Statement stm = connection.createStatement(); ResultSet set = stm.executeQuery("select * from trailers;")) {
             while (set.next()) {
-                trailers.add(new Trailer(set.getString("matricula"),set.getDouble("largo"),set.getDouble("peso"),set.getString("modelo"),set.getInt("nPlazas")));
+                trailers.add(new Trailer(set.getString("matricula"),set.getDouble("largo"),set.getDouble("peso"),set.getString("modelo"),set.getInt("numRemolques")));
             }
         } catch (SQLException e) {
             System.err.println("Error en obtencion " + e);
