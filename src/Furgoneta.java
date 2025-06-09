@@ -33,10 +33,16 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
                 '}';
     }
 
+    /**
+     * Obtencion de una furgoneta
+     * @param connection la conexion a la base de datos
+     * @param matricula la matricula de la Furgoneta
+     * @return una F
+     */
     @Override
     public Furgoneta getVehiculo(Connection connection, String matricula) {
         Furgoneta furgoneta = null;
-        try (PreparedStatement statement = connection.prepareStatement("select * from camion where matricula=?")) {
+        try (PreparedStatement statement = connection.prepareStatement("select * from furgonetas where matricula=?")) {
             statement.setString(1,matricula);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -77,9 +83,10 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
         } catch (InputMismatchException e) {
             System.err.println("Error introduciendo el numero ");
         }
+        sc.nextLine();
         String campo = switch (campoNumero) {
             case 1 -> "largo";
-            case 3 -> "peso";
+            case 2 -> "peso";
             case 4 -> "modelo";
             case 5 -> "nPlazas";
             default -> "";
@@ -100,13 +107,13 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
                 }
                 case "nPlazas" -> {
                     System.out.println("Digame el nuevo valor para el numero de plazas:");
-                    var nuevoModelo = sc.nextInt();
-                    stm.setInt(1,nuevoModelo);
+                    var numeroPlazas = sc.nextInt();
+                    stm.setInt(1,numeroPlazas);
                 }
                 default -> {
                     System.out.println("Digame el nuevo valor para " + campo + ":");
-                    var nuevoModelo = sc.nextDouble();
-                    stm.setDouble(1,nuevoModelo);
+                    var otroValor = sc.nextDouble();
+                    stm.setDouble(1,otroValor);
                 }
             }
             stm.setString(2,matricula);
