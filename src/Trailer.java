@@ -57,7 +57,7 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
     /**
      * Insertar un vehiculo en este caso de tipo Trailer
      * @param connection la conexion a la base de datos
-     * @return el numero de filas insertadas
+     * @return el número de filas insertadas
      */
     @Override
     public int insertarVehiculo(Connection connection) {
@@ -78,7 +78,7 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
      * Actualizar vehiculo en este caso un trailer
      * @param connection la conexion a la base de datos
      * @param matricula la matricula del vehiculo al que quieres aplicar un cambio
-     * @return el numero de filas cambiadas
+     * @return el número de filas cambiadas
      */
     @Override
     public int actualizarVehiculo(Connection connection, String matricula) {

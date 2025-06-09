@@ -77,6 +77,12 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
         }
     }
 
+    /**
+     * Actualizar informacion de Furgoneta
+     * @param connection la conexion a la base de datos
+     * @param matricula la matricula del vehiculo
+     * @return el numero de filas actualizadas
+     */
     @Override
     public int actualizarVehiculo(Connection connection, String matricula) {
         Scanner sc = new Scanner(System.in);
