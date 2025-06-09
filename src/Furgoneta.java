@@ -37,7 +37,7 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
      * Obtencion de una furgoneta
      * @param connection la conexion a la base de datos
      * @param matricula la matricula de la Furgoneta
-     * @return una F
+     * @return una Furgoneta que contiene los datos requeridos
      */
     @Override
     public Furgoneta getVehiculo(Connection connection, String matricula) {
@@ -124,7 +124,11 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
         }
     }
 
-
+    /**
+     *
+     * @param connection
+     * @param matricula
+     */
     @Override
     public void eliminarVehiculo(Connection connection, String matricula) {
         try (PreparedStatement statement = connection.prepareStatement("delete from furgonetas where matricula=?")) {

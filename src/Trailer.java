@@ -57,7 +57,7 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
     /**
      * Insertar un vehiculo en este caso de tipo Trailer
      * @param connection la conexion a la base de datos
-     * @return
+     * @return el numero de filas insertadas
      */
     @Override
     public int insertarVehiculo(Connection connection) {
@@ -136,15 +136,6 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
         }
     }
 
-    @Override
-    public void eliminarVehiculo(Connection connection) {
-        try (PreparedStatement statement = connection.prepareStatement("delete from trailers where matricula=?")) {
-            statement.setString(1,matricula);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error en eliminar vehiculo " + e);
-        }
-    }
 
     @Override
     public ArrayList<Trailer> obtenerTodosVehiculosCategoria(Connection connection) {

@@ -140,20 +140,6 @@ public class Camion extends Vehiculo implements Usable<Camion> {
     }
 
     /**
-     * Elimina un camion instanciado de la base de datos
-     * @param connection la conexion a la base de datos
-     */
-    @Override
-    public void eliminarVehiculo(Connection connection) {
-        try (PreparedStatement statement = connection.prepareStatement("delete from camion where matricula=?")) {
-            statement.setString(1,matricula);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error en eliminar vehiculo " + e);
-        }
-    }
-
-    /**
      * Obtiene todos los camiones
      * @param connection la conexion a la base de datos
      * @return un arrayList con todos los camiones que hay en la base de datos
