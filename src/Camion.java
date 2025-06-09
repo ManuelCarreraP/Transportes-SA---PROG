@@ -85,6 +85,9 @@ public class Camion extends Vehiculo implements Usable<Camion> {
             return -2;
         }
         String consulta = "update camion set " + campo + " = ? where matricula = ?"; // La paremtrizacion de los Prepared no sirven para los campos, así que lo hice así aunque no me gusta mucho
+        if (campo.equals("capacidadCarga")) {
+            consulta = "update camion set \"" + campo + "\" = ? where matricula = ?";
+        }
         try (PreparedStatement stm = connection.prepareStatement(consulta)) {
             if (campo.equals("modelo")) {
                 System.out.println("Digame el nuevo valor para el modelo:");
