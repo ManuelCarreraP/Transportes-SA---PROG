@@ -86,7 +86,6 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
             return -2;
         }
         String consulta = "update furgonetas set " + campo + " = ? where matricula = ?"; // La paremtrizacion de los Prepared no sirven para los campos, así que lo hice así aunque no me gusta mucho
-        System.out.println(consulta);
         try (PreparedStatement stm = connection.prepareStatement(consulta)) {
             switch (campo) {
                 case "modelo" -> {
