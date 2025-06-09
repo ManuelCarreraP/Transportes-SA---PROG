@@ -6,6 +6,8 @@ public interface Usable<T extends Vehiculo> {
     int insertarVehiculo(Connection connection);
     int actualizarVehiculo(Connection connection,String matricula);
     void eliminarVehiculo(Connection connection,String matricula);
-    void eliminarVehiculo(Connection connection);
     ArrayList<T> obtenerTodosVehiculosCategoria(Connection connection);
 }
+
+// en caso de vehículo instanciado utilizaríamos esto como opción de flexivilidad, en este caso no se usa: void eliminarVehiculo(Connection connection);
+
