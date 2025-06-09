@@ -57,6 +57,11 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
         return furgoneta;
     }
 
+    /**
+     * Insercion de una furgoneta
+     * @param connection la conexion a la base de datos
+     * @return numero de filas insertadas
+     */
     @Override
     public int insertarVehiculo(Connection connection) {
         try (PreparedStatement statement = connection.prepareStatement("insert into furgonetas values(?, ?, ?, ?, ?)")) {
@@ -139,6 +144,11 @@ public class Furgoneta extends Vehiculo implements Usable<Furgoneta> {
         }
     }
 
+    /**
+     * Obtencion de todas las furgonetas
+     * @param connection la conexion a la base de datos
+     * @return un ArrayList de tipo Furgoneta
+     */
     @Override
     public ArrayList<Furgoneta> obtenerTodosVehiculosCategoria(Connection connection) {
         ArrayList<Furgoneta> furgonetas = new ArrayList<>();

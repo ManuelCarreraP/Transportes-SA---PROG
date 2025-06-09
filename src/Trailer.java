@@ -147,7 +147,11 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
         }
     }
 
-
+    /**
+     * Obtener todos los vehiculos de trailers
+     * @param connection la conexion a la base de datos
+     * @return un ArrayList con todos los trailers
+     */
     @Override
     public ArrayList<Trailer> obtenerTodosVehiculosCategoria(Connection connection) {
         ArrayList<Trailer> trailers = new ArrayList<>();
