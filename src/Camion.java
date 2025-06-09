@@ -29,6 +29,13 @@ public class Camion extends Vehiculo implements Usable<Camion> {
                 ", capacidadCarga=" + capacidadCarga + " toneladas" +
                 '}';
     }
+
+    /**
+     * Obtener un vehiculo en este caso un camion
+     * @param connection la conexion a la base de datos
+     * @param matricula la matricula del vehiculo a obtener
+     * @return un objeto Camion que contiene todos los datos requeridos
+     */
     @Override
     public Camion getVehiculo(Connection connection, String matricula) {
         Camion camion = null;
@@ -47,6 +54,11 @@ public class Camion extends Vehiculo implements Usable<Camion> {
         return camion;
     }
 
+    /**
+     * Inserta un camion teniendo en cuenta los datos de objetos ya instanciados
+     * @param connection la conexion a la base de datos
+     * @return la cantidad de filas insertadas
+     */
     @Override
     public int insertarVehiculo(Connection connection) {
         try (PreparedStatement statement = connection.prepareStatement("insert into camion values(?, ?, ?, ?, ?)")) {
@@ -62,6 +74,12 @@ public class Camion extends Vehiculo implements Usable<Camion> {
         }
     }
 
+    /**
+     * Actualiza un campo de un Camion
+     * @param connection la conexion a la base de datos
+     * @param matricula la matricula del Camion
+     * @return la cantidad de filas que fueron actualizadas
+     */
     @Override
     public int actualizarVehiculo(Connection connection, String matricula) {
         Scanner sc = new Scanner(System.in);
@@ -85,7 +103,7 @@ public class Camion extends Vehiculo implements Usable<Camion> {
             return -2;
         }
         String consulta = "update camion set " + campo + " = ? where matricula = ?"; // La paremtrizacion de los Prepared no sirven para los campos, así que lo hice así aunque no me gusta mucho
-        if (campo.equals("capacidadCarga")) {
+        if (campo.equals("capacidadCarga")) { // Este campo esta en camelCase necesito
             consulta = "update camion set \"" + campo + "\" = ? where matricula = ?";
         }
         try (PreparedStatement stm = connection.prepareStatement(consulta)) {
@@ -95,8 +113,8 @@ public class Camion extends Vehiculo implements Usable<Camion> {
                 stm.setString(1, nuevoModelo);
             } else {
                 System.out.println("Digame el nuevo valor para " + campo + ":");
-                var nuevoModelo = sc.nextDouble();
-                stm.setDouble(1, nuevoModelo);
+                var otrosValores = sc.nextDouble();
+                stm.setDouble(1, otrosValores);
             }
             stm.setString(2,matricula);
             return stm.executeUpdate();
@@ -106,6 +124,11 @@ public class Camion extends Vehiculo implements Usable<Camion> {
         }
     }
 
+    /**
+     * Elimina un vehiculo en especifico pasandole la matricula por parametro
+     * @param connection la conexion a la base de datos
+     * @param matricula la matricula
+     */
     @Override
     public void eliminarVehiculo(Connection connection, String matricula) {
         try (PreparedStatement statement = connection.prepareStatement("delete from camion where matricula=?")) {
@@ -116,6 +139,10 @@ public class Camion extends Vehiculo implements Usable<Camion> {
         }
     }
 
+    /**
+     * Elimina un camion instanciado de la base de datos
+     * @param connection la conexion a la base de datos
+     */
     @Override
     public void eliminarVehiculo(Connection connection) {
         try (PreparedStatement statement = connection.prepareStatement("delete from camion where matricula=?")) {
@@ -126,6 +153,11 @@ public class Camion extends Vehiculo implements Usable<Camion> {
         }
     }
 
+    /**
+     * Obtiene todos los camiones
+     * @param connection la conexion a la base de datos
+     * @return un arrayList con todos los camiones que hay en la base de datos
+     */
     @Override
     public ArrayList<Camion> obtenerTodosVehiculosCategoria(Connection connection) {
         ArrayList<Camion> camiones = new ArrayList<>();

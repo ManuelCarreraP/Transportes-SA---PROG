@@ -31,6 +31,12 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
                 '}';
     }
 
+    /**
+     * Obtenemos un vehiculo en este caso un Trailer
+     * @param connection la conexion a la base de datos
+     * @param matricula la matricula del vehiculo
+     * @return un objeto Trailer
+     */
     @Override
     public Trailer getVehiculo(Connection connection, String matricula) {
         Trailer trailer = null;
@@ -48,6 +54,11 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
         return trailer;
     }
 
+    /**
+     * Insertar un vehiculo en este caso de tipo Trailer
+     * @param connection la conexion a la base de datos
+     * @return
+     */
     @Override
     public int insertarVehiculo(Connection connection) {
         try (PreparedStatement statement = connection.prepareStatement("insert into trailers values(?, ?, ?, ?, ?)")) {
