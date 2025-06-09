@@ -74,6 +74,12 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
         }
     }
 
+    /**
+     * Actualizar vehiculo en este caso un trailer
+     * @param connection la conexion a la base de datos
+     * @param matricula la matricula del vehiculo al que quieres aplicar un cambio
+     * @return el numero de filas cambiadas
+     */
     @Override
     public int actualizarVehiculo(Connection connection, String matricula) {
         Scanner sc = new Scanner(System.in);
@@ -126,6 +132,11 @@ public class Trailer extends Vehiculo implements Usable<Trailer> {
         }
     }
 
+    /**
+     * Eliminar un trailer a partir de la matricula
+     * @param connection la conexion a la base de datos
+     * @param matricula la matricula del vehiculo a eliminar
+     */
     @Override
     public void eliminarVehiculo(Connection connection, String matricula) {
         try (PreparedStatement statement = connection.prepareStatement("delete from trailers where matricula=?")) {
