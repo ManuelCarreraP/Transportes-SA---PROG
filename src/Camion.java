@@ -66,7 +66,7 @@ public class Camion extends Vehiculo implements Usable<Camion> {
     public int actualizarVehiculo(Connection connection, String matricula) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Digame entre que campo desea actualizar: ");
-        System.out.println("1.Largo\n2.Peso\n3.Modelo\n4.Numero de plazas\n5.Salir");
+        System.out.println("1.Largo\n2.Peso\n3.Modelo\n4.Capacidad de Carga\n5.Salir");
         int campoNumero = 0;
         try {
             System.out.print("Digame la opcion:");
